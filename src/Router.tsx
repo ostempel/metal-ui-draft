@@ -1,41 +1,28 @@
+// Router.tsx
+import { createBrowserRouter } from "react-router";
 import Login from "./pages/Login";
-import { createBrowserRouter, redirect } from "react-router";
-import { requireAuthLoader } from "./lib/require-auth";
 import Dashboard from "./pages/Dashboard";
+import { requireAuthLoader } from "./lib/require-auth";
+import { QueryLayout } from "./layouts/QueryLayout";
 
 export const router = createBrowserRouter([
+  // Public route: kein QueryProvider, kein Auth-Zwang (ausser evtl. im Loader)
   {
+    path: "/login",
+    element: <Login />,
+  },
+
+  // Geschützte Routen: hängen unter QueryLayout → QueryProvider aktiv
+  {
+    element: <QueryLayout />,
     children: [
       {
-        path: "/login",
-        element: <Login />,
-      },
-      {
         path: "/",
-        loader: requireAuthLoader, // 🔐 Schutz
+        loader: requireAuthLoader,
         element: <Dashboard />,
       },
+      // hier kannst du weitere protected routes einhängen:
+      // { path: "/projects", element: <ProjectsPage /> },
     ],
   },
 ]);
-
-// export function AppRouter() {
-//   return (
-//     <Routes>
-//       <Route path="*" element={<Login />} />
-//       {/* <Route index element={<Home />} />
-//       <Route path="about" element={<About />} />
-
-//       <Route element={<AuthLayout />}>
-//         <Route path="login" element={<Login />} />
-//         <Route path="register" element={<Register />} />
-//       </Route>
-
-//       <Route path="concerts">
-//         <Route index element={<ConcertsHome />} />
-//         <Route path=":city" element={<City />} />
-//         <Route path="trending" element={<Trending />} />
-//       </Route> */}
-//     </Routes>
-//   );
-// }

@@ -1,29 +1,66 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { CliConfig, loadCliConfig } from "@/lib/cli-config";
 import { toast } from "sonner";
 import { listen } from "@tauri-apps/api/event";
 
-type AuthState = {
-  token: string | null;
-  apiUrl: string | null;
-  projectId: string | null;
-  contextName: string | null;
+// --------------------
+// Typen
+// --------------------
+
+type AuthenticatedState = {
+  isAuthenticated: true;
+  token: string;
+  apiUrl: string;
+  projectId: string;
+  contextName: string;
   reload: () => Promise<void>;
   logout: () => void;
 };
 
-const AuthContext = createContext<AuthState | null>(null);
+type UnauthenticatedState = {
+  isAuthenticated: false;
+  reload: () => Promise<void>;
+  logout: () => void;
+};
+
+export type AuthState = AuthenticatedState | UnauthenticatedState;
+
+// interner State ohne Funktionen
+type InternalAuthState =
+  | {
+      isAuthenticated: false;
+    }
+  | {
+      isAuthenticated: true;
+      token: string;
+      apiUrl: string;
+      projectId: string;
+      contextName: string;
+    };
+
+// --------------------
+// Context
+// --------------------
+
+const AuthContext = createContext<AuthState | undefined>(undefined);
+
+// --------------------
+// Provider
+// --------------------
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(null);
-  const [apiUrl, setApiUrl] = useState<string | null>(null);
-  const [projectId, setProjectId] = useState<string | null>(null);
-  const [contextName, setContextName] = useState<string | null>(null);
+  const [authState, setAuthState] = useState<InternalAuthState>({
+    isAuthenticated: false,
+  });
 
-  async function reload() {
+  const reload = useCallback(async () => {
     const config: CliConfig = await loadCliConfig();
-    console.log("CLI-Config loaded:", config);
-    console.log("Current context:", config.currentContext);
 
     const ctx = config.contexts.find((c) => c.name === config.currentContext);
 
@@ -33,33 +70,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         richColors: true,
         description: "No context selected in CLI config.",
       });
-      setToken(null);
+
+      setAuthState({ isAuthenticated: false });
       return;
     }
 
-    setToken(ctx.apiToken);
-    setApiUrl(ctx.apiUrl);
-    setProjectId(ctx.defaultProject);
-    setContextName(ctx.name);
+    setAuthState({
+      isAuthenticated: true,
+      token: ctx.apiToken,
+      apiUrl: ctx.apiUrl,
+      projectId: ctx.defaultProject,
+      contextName: ctx.name,
+    });
 
     toast.info("Auth", {
       id: "context-switched",
       richColors: true,
       description: `Context switched to ${ctx.name}`,
     });
-  }
-
-  function logout() {
-    setToken(null);
-    setApiUrl(null);
-    setProjectId(null);
-    setContextName(null);
-  }
-
-  useEffect(() => {
-    reload();
   }, []);
 
+  const logout = useCallback(() => {
+    setAuthState({ isAuthenticated: false });
+
+    toast.info("Auth", {
+      id: "logged-out",
+      richColors: true,
+      description: "Logged out.",
+    });
+  }, []);
+
+  // initiales Laden
+  useEffect(() => {
+    void reload();
+  }, [reload]);
+
+  // OAuth-Event-Listener
   useEffect(() => {
     const unlistenPromise = listen("oauth-token", async () => {
       toast.success("Auth", {
@@ -73,19 +119,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       unlistenPromise.then((unlisten) => unlisten());
     };
-  }, []);
+  }, [reload]);
 
-  return (
-    <AuthContext.Provider
-      value={{ token, apiUrl, projectId, contextName, reload, logout }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  // aus internem State → öffentliches AuthState (Union)
+  const value: AuthState = authState.isAuthenticated
+    ? {
+        isAuthenticated: true,
+        token: authState.token,
+        apiUrl: authState.apiUrl,
+        projectId: authState.projectId,
+        contextName: authState.contextName,
+        reload,
+        logout,
+      }
+    : {
+        isAuthenticated: false,
+        reload,
+        logout,
+      };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
+
+// --------------------
+// Hook
+// --------------------
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  if (!ctx) {
+    throw new Error("useAuth must be used inside AuthProvider");
+  }
   return ctx;
 }

@@ -1,8 +1,11 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { useQuery } from "@connectrpc/connect-query";
+import { HealthService } from "@metal-stack/api/js/metalstack/api/v2/health_pb";
 
 export default function Dashboard() {
+  const { data } = useQuery(HealthService.method.get);
   return (
     <SidebarProvider
       style={
