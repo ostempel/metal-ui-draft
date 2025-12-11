@@ -11,8 +11,6 @@ import ServiceHealthItem from "./health/service-health-item";
 export function SiteHeader({ title }: { title: string }) {
   const { data } = useQuery(HealthService.method.get);
 
-  console.log(data);
-
   const { theme, setTheme } = useTheme();
   return (
     <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">

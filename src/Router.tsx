@@ -1,25 +1,28 @@
 import { createBrowserRouter } from "react-router";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import { requireAuthLoader } from "./lib/require-auth";
 import { QueryLayout } from "./layouts/QueryLayout";
 import { AuthLayout } from "./layouts/AuthLayout";
+import TenantList from "./pages/Tenants/TenantList";
 
 export const router = createBrowserRouter([
   {
-    element: <AuthLayout />, // 👈 globaler Wrapper für ALLE Routen
+    element: <AuthLayout />,
     children: [
       {
         path: "/login",
         element: <Login />,
       },
       {
-        element: <QueryLayout />, // nur protected routes
+        element: <QueryLayout />,
         children: [
           {
             path: "/",
-            loader: requireAuthLoader,
             element: <Dashboard />,
+          },
+          {
+            path: "/tenants",
+            element: <TenantList />,
           },
         ],
       },
