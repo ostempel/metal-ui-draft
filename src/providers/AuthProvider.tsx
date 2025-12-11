@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loadCliConfig } from "@/lib/cli-config";
+import { CliConfig, loadCliConfig } from "@/lib/cli-config";
 import { toast } from "sonner";
 import { listen } from "@tauri-apps/api/event";
 
@@ -21,12 +21,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [contextName, setContextName] = useState<string | null>(null);
 
   async function reload() {
-    const config = await loadCliConfig();
+    const config: CliConfig = await loadCliConfig();
+    console.log("CLI-Config loaded:", config);
+    console.log("Current context:", config.currentContext);
 
     const ctx = config.contexts.find((c) => c.name === config.currentContext);
 
     if (!ctx) {
-      toast.info("Auth", {
+      toast.warning("Auth", {
+        id: "no-context-selected",
+        richColors: true,
         description: "No context selected in CLI config.",
       });
       setToken(null);
@@ -39,6 +43,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setContextName(ctx.name);
 
     toast.info("Auth", {
+      id: "context-switched",
+      richColors: true,
       description: `Context switched to ${ctx.name}`,
     });
   }
@@ -56,8 +62,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const unlistenPromise = listen("oauth-token", async () => {
-      toast.success("Login erfolgreich!");
-      await reload(); // ✅ Auth-State aus CLI neu laden
+      toast.success("Auth", {
+        id: "oauth-token-received",
+        richColors: true,
+        description: "OAuth token received, reloading context.",
+      });
+      await reload();
     });
 
     return () => {

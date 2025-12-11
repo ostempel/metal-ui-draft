@@ -7,21 +7,27 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CliConfig {
     pub contexts: Vec<Context>,
-    #[serde(rename = "current-context")]
+
+    #[serde(rename(serialize = "currentContext", deserialize = "current-context"))]
     pub current_context: Option<String>,
-    #[serde(rename = "previous-context")]
+
+    #[serde(rename(serialize = "previousContext", deserialize = "previous-context"))]
     pub previous_context: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Context {
     pub name: String,
-    #[serde(rename = "api-token")]
+
+    #[serde(rename(serialize = "apiToken", deserialize = "api-token"))]
     pub api_token: String,
-    #[serde(rename = "api-url")]
+
+    #[serde(rename(serialize = "apiUrl", deserialize = "api-url"))]
     pub api_url: String,
-    #[serde(rename = "default-project")]
+
+    #[serde(rename(serialize = "defaultProject", deserialize = "default-project"))]
     pub default_project: String,
+
     pub provider: String,
 }
 
