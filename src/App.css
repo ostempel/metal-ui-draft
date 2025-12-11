@@ -88,7 +88,7 @@
   --sidebar-primary: oklch(0.7712 0.1721 65.6848);
   --sidebar-primary-foreground: oklch(1.0000 0 0);
   --sidebar-accent: oklch(0.2686 0 0);
-  --sidebar-accent-foreground: oklch(0.9219 0 0);
+  --sidebar-accent-foreground: oklch(1.0000 0 0);
   --sidebar-border: oklch(0.3715 0 0);
   --sidebar-ring: oklch(0.7712 0.1721 65.6848);
   --font-sans: Inter, sans-serif;

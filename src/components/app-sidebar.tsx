@@ -2,17 +2,13 @@
 
 import * as React from "react";
 import {
-  IconCamera,
-  IconChartBar,
+  IconBuilding,
   IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
+  IconGlobe,
   IconHelp,
-  IconListDetails,
-  IconReport,
+  IconKey,
+  IconPackage,
+  IconRocket,
   IconSearch,
   IconSettings,
   IconUsers,
@@ -43,76 +39,23 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/",
       icon: IconDashboard,
     },
     {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
+      title: "Tenants",
+      url: "/tenants",
+      icon: IconBuilding,
     },
     {
       title: "Projects",
-      url: "#",
-      icon: IconFolder,
+      url: "/projects",
+      icon: IconRocket,
     },
     {
-      title: "Team",
-      url: "#",
+      title: "Users",
+      url: "/users",
       icon: IconUsers,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
     },
   ],
   navSecondary: [
@@ -132,21 +75,21 @@ const data = {
       icon: IconSearch,
     },
   ],
-  documents: [
+  infrastructure: [
     {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
+      name: "Images",
+      url: "/images",
+      icon: IconPackage,
     },
     {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
+      name: "IPs",
+      url: "/ips",
+      icon: IconGlobe,
     },
     {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
+      name: "Tokens",
+      url: "/tokens",
+      icon: IconKey,
     },
   ],
 };
@@ -171,7 +114,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
+        <NavDocuments items={data.infrastructure} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

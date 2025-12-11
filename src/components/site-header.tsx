@@ -2,9 +2,17 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useTheme } from "@/providers/ThemeProvider";
-import { IconMoon, IconSun } from "@tabler/icons-react";
+import { IconHeartRateMonitor, IconMoon, IconSun } from "@tabler/icons-react";
+import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
+import { useQuery } from "@connectrpc/connect-query";
+import { HealthService } from "@metal-stack/api/js/metalstack/api/v2/health_pb";
+import ServiceHealthItem from "./health/service-health-item";
 
-export function SiteHeader() {
+export function SiteHeader({ title }: { title: string }) {
+  const { data } = useQuery(HealthService.method.get);
+
+  console.log(data);
+
   const { theme, setTheme } = useTheme();
   return (
     <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
@@ -14,7 +22,7 @@ export function SiteHeader() {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
-        <h1 className="text-base font-medium">Documents</h1>
+        <h1 className="text-base font-medium">{title}</h1>
         <div className="ml-auto flex items-center gap-2">
           <Button
             variant="secondary"
@@ -31,6 +39,23 @@ export function SiteHeader() {
               Docs
             </a>
           </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline">
+                <IconHeartRateMonitor />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              {data?.health?.services.map((service) => (
+                <ServiceHealthItem
+                  key={service.name}
+                  serviceName={service.name}
+                  status={service.status}
+                  message={service.message}
+                />
+              ))}
+            </PopoverContent>
+          </Popover>
           <Button
             variant="outline"
             size="icon"
