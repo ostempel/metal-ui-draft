@@ -8,6 +8,7 @@ import {
 import { CliConfig, loadCliConfig } from "@/lib/cli-config";
 import { toast } from "sonner";
 import { listen } from "@tauri-apps/api/event";
+import { useNavigate } from "react-router";
 
 // --------------------
 // Typen
@@ -55,6 +56,7 @@ const AuthContext = createContext<AuthState | undefined>(undefined);
 // --------------------
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const navigate = useNavigate();
   const [authState, setAuthState] = useState<InternalAuthState>({
     isAuthenticated: false,
   });
@@ -86,7 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     toast.info("Auth", {
       id: "context-switched",
       richColors: true,
-      description: `Context switched to ${ctx.name}`,
+      description: `Context found in CLI and switched to ${ctx.name}`,
     });
   }, []);
 
@@ -96,24 +98,47 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     toast.info("Auth", {
       id: "logged-out",
       richColors: true,
-      description: "Logged out.",
+      description: "Logged out successfully.",
     });
   }, []);
 
-  // initiales Laden
   useEffect(() => {
     void reload();
   }, [reload]);
 
-  // OAuth-Event-Listener
   useEffect(() => {
-    const unlistenPromise = listen("oauth-token", async () => {
+    const unlistenPromise = listen("oauth-token", async (event) => {
+      const config: CliConfig = await loadCliConfig();
+
+      const ctx = config.contexts.find((c) => c.name === config.currentContext);
+      if (!ctx) {
+        toast.warning("Auth", {
+          id: "no-context-selected",
+          richColors: true,
+          description: "No context selected in CLI config.",
+        });
+
+        setAuthState({ isAuthenticated: false });
+        return;
+      }
+      setAuthState({
+        isAuthenticated: true,
+        token: event.payload as string,
+        apiUrl: ctx.apiUrl,
+        projectId: ctx.defaultProject,
+        contextName: ctx.name,
+      });
+
       toast.success("Auth", {
         id: "oauth-token-received",
         richColors: true,
         description: "OAuth token received, reloading context.",
       });
-      await reload();
+      navigate("/");
+      console.log("Redirecting to / after OAuth token received");
+      // TODO: dont reload, because we don't write the config file in tauri app
+      // maybe write it like the cli does
+      // await reload();
     });
 
     return () => {
@@ -121,7 +146,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, [reload]);
 
-  // aus internem State → öffentliches AuthState (Union)
   const value: AuthState = authState.isAuthenticated
     ? {
         isAuthenticated: true,

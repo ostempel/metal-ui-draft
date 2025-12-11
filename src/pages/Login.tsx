@@ -16,18 +16,28 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { invoke } from "@tauri-apps/api/core";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/providers/AuthProvider";
+import { useNavigate } from "react-router";
 
 const formSchema = z.object({
   apiUrl: z.url("Please enter a valid URL"),
 });
 
 export default function Login() {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       apiUrl: "http://v2.api.172.17.0.1.nip.io:8080",
     },
   });
+
+  const auth = useAuth();
+  if (auth.isAuthenticated) {
+    navigate("/");
+    return null;
+  }
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     invoke("start_oauth_login", { apiUrl: values.apiUrl });
   }

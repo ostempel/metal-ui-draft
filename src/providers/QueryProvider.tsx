@@ -12,7 +12,6 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  // Redirect immer über einen Effekt, nicht im Render
   useEffect(() => {
     if (!auth.isAuthenticated) {
       navigate("/login");
@@ -20,13 +19,11 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
   }, [auth.isAuthenticated, navigate]);
 
   const transport = useMemo(() => {
-    // hier Union-Type narrowen
     if (!auth.isAuthenticated) {
       return null;
     }
 
     const interceptor = new AuthInterceptor(auth.token, () => {
-      // Wird bei "unauthenticated" (token expired, etc.) aufgerufen
       auth.logout();
       queryClient.clear();
       navigate("/login");
@@ -37,7 +34,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
       interceptors: [interceptor],
       useBinaryFormat: false,
     });
-  }, [auth, navigate]); // nur `auth` als Ganzes, nicht auth.token / auth.apiUrl einzeln
+  }, [auth, navigate]);
 
   if (!auth.isAuthenticated || !transport) {
     return null;
