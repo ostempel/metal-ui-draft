@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import { QueryLayout } from "./layouts/QueryLayout";
 import { AuthLayout } from "./layouts/AuthLayout";
 import TenantList from "./pages/Tenants/TenantList";
+import ProjectList from "./pages/Projects/ProjectList";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
           {
             path: "/tenants",
             element: <TenantList />,
+          },
+          {
+            path: "/projects",
+            element: <ProjectList />,
           },
         ],
       },
