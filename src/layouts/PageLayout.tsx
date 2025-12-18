@@ -1,5 +1,5 @@
 import { Outlet, useMatches } from "react-router";
-import { SiteHeader } from "@/components/site-header";
+import { SiteHeader } from "@/components/ui/app-shell/site-header";
 import AppLayout from "@/layouts/AppLayout";
 
 export function PageLayout() {

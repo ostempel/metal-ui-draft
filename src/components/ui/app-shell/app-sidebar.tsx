@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import {
   IconBuilding,
@@ -14,11 +13,10 @@ import {
   IconSettings,
   IconUsers,
 } from "@tabler/icons-react";
-
-import { NavInfrastructure } from "@/components/nav-documents";
-import { NavMain } from "@/components/nav-main";
-import { NavSecondary } from "@/components/nav-secondary";
-import { NavUser } from "@/components/nav-user";
+import { NavInfrastructure } from "@/components/ui/app-shell/nav-documents";
+import { NavMain } from "@/components/ui/app-shell/nav-main";
+import { NavSecondary } from "@/components/ui/app-shell/nav-secondary";
+import { NavUser } from "@/components/ui/app-shell/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -29,7 +27,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-import logo from "../assets/metal-stack.png";
+import logo from "../../../assets/metal-stack.png";
 
 const data = {
   user: {

@@ -3,10 +3,10 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useTheme } from "@/providers/ThemeProvider";
 import { IconHeartRateMonitor, IconMoon, IconSun } from "@tabler/icons-react";
-import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
+import { Popover, PopoverTrigger, PopoverContent } from "../popover";
 import { useQuery } from "@connectrpc/connect-query";
 import { HealthService } from "@metal-stack/api/js/metalstack/api/v2/health_pb";
-import ServiceHealthItem from "./health/service-health-item";
+import ServiceHealthItem from "../../health/service-health-item";
 import { Select } from "@radix-ui/react-select";
 import { useProject } from "@/providers/ProjectProvider";
 import {
@@ -14,7 +14,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../select";
 
 interface SiteHeaderProps {
   title: string;
