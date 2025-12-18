@@ -8,6 +8,7 @@ import {
   IconHelp,
   IconKey,
   IconMaximize,
+  IconNetwork,
   IconPackage,
   IconRocket,
   IconSearch,
@@ -98,6 +99,11 @@ const data = {
       name: "IPs",
       url: "/ips",
       icon: IconGlobe,
+    },
+    {
+      name: "Networks",
+      url: "/networks",
+      icon: IconNetwork,
     },
     {
       name: "Tokens",

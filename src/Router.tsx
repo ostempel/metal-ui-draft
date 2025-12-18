@@ -9,8 +9,9 @@ import ProjectsPage from "./pages/Projects/projects-page";
 import MachinesPage from "./pages/Machines/machines-page";
 import ImagesPage from "./pages/Images/images-page";
 import IPsPage from "./pages/IPs/ips-page";
-import PartitionsPage from "./pages/Partition/partitions-page";
+import PartitionsPage from "./pages/Partitions/partitions-page";
 import SizesPage from "./pages/Sizes/sizes-page";
+import NetworksPage from "./pages/Networks/networks-page";
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +66,11 @@ export const router = createBrowserRouter([
                 path: "/sizes",
                 element: <SizesPage />,
                 handle: { title: "Sizes" },
+              },
+              {
+                path: "/networks",
+                element: <NetworksPage />,
+                handle: { title: "Networks" },
               },
             ],
           },
