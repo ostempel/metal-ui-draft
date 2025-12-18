@@ -7,6 +7,7 @@ import { PageLayout } from "./layouts/PageLayout";
 import TenantsPage from "./pages/Tenants/tenants-page";
 import ProjectsPage from "./pages/Projects/projects-page";
 import MachinesPage from "./pages/Machines/machines-page";
+import ImagesPage from "./pages/Images/images-page";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,11 @@ export const router = createBrowserRouter([
                 path: "/machines",
                 element: <MachinesPage />,
                 handle: { title: "Machines", withProjectSelector: true },
+              },
+              {
+                path: "/images",
+                element: <ImagesPage />,
+                handle: { title: "Images" },
               },
             ],
           },
