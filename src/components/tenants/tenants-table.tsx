@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { IconTrendingUp } from "@tabler/icons-react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -17,11 +16,6 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableBody,
@@ -30,25 +24,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "../ui/drawer";
-import { Project } from "@metal-stack/api/js/metalstack/api/v2/project_pb";
-import { DataTablePagination } from "../table/pagination/table-pagination";
 
-const columns: ColumnDef<Project>[] = [
+import { Tenant } from "@metal-stack/api/js/metalstack/api/v2/tenant_pb";
+import { DataTablePagination } from "../table/pagination/table-pagination";
+import TenantDrawer from "./tenant-drawer";
+
+const columns: ColumnDef<Tenant>[] = [
   {
-    accessorKey: "uuid",
-    header: "UUID",
+    accessorKey: "login",
+    header: "Login",
     cell: ({ row }) => {
-      return <TableCellViewer item={row.original} />;
+      return <TenantDrawer id={row.original.login} />;
     },
     enableHiding: false,
   },
@@ -58,7 +44,7 @@ const columns: ColumnDef<Project>[] = [
   },
 ];
 
-export function ProjectTable({ data: initialData }: { data: Project[] }) {
+export function TenantTable({ data: initialData }: { data: Tenant[] }) {
   const [data] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -82,7 +68,7 @@ export function ProjectTable({ data: initialData }: { data: Project[] }) {
       columnFilters,
       pagination,
     },
-    getRowId: (row) => row.uuid.toString(),
+    getRowId: (row) => row.login.toString(),
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -150,58 +136,5 @@ export function ProjectTable({ data: initialData }: { data: Project[] }) {
       </div>
       <DataTablePagination table={table} />
     </div>
-  );
-}
-
-function TableCellViewer({ item }: { item: Project }) {
-  const isMobile = useIsMobile();
-
-  return (
-    <Drawer direction={isMobile ? "bottom" : "right"}>
-      <DrawerTrigger asChild>
-        <Button variant="link" className="text-foreground w-fit px-0 text-left">
-          {item.uuid}
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="gap-1">
-          <DrawerTitle>{item.uuid}</DrawerTitle>
-          <DrawerDescription>
-            Showing total visitors for the last 6 months
-          </DrawerDescription>
-        </DrawerHeader>
-        <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-          {!isMobile && (
-            <>
-              <Separator />
-              <div className="grid gap-2">
-                <div className="flex gap-2 leading-none font-medium">
-                  Trending up by 5.2% this month{" "}
-                  <IconTrendingUp className="size-4" />
-                </div>
-                <div className="text-muted-foreground">
-                  Showing total visitors for the last 6 months. This is just
-                  some random text to test the layout. It spans multiple lines
-                  and should wrap around.
-                </div>
-              </div>
-              <Separator />
-            </>
-          )}
-          <form className="flex flex-col gap-4">
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="header">Header</Label>
-              <Input id="header" defaultValue={item.uuid} />
-            </div>
-          </form>
-        </div>
-        <DrawerFooter>
-          <Button>Submit</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Done</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
   );
 }

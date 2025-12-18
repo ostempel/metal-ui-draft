@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import Login from "./pages/login";
+import Dashboard from "./pages/dashboard";
 import { QueryLayout } from "./layouts/QueryLayout";
 import { AuthLayout } from "./layouts/AuthLayout";
 import { PageLayout } from "./layouts/PageLayout";
-import TenantList from "./pages/Tenants/TenantList";
-import ProjectList from "./pages/Projects/ProjectList";
+import TenantsPage from "./pages/Tenants/tenants-page";
+import ProjectsPage from "./pages/Projects/projects-page";
+import MachinesPage from "./pages/Machines/machines-page";
 
 export const router = createBrowserRouter([
   {
@@ -28,13 +29,18 @@ export const router = createBrowserRouter([
               },
               {
                 path: "/tenants",
-                element: <TenantList />,
+                element: <TenantsPage />,
                 handle: { title: "Tenant List" },
               },
               {
                 path: "/projects",
-                element: <ProjectList />,
+                element: <ProjectsPage />,
                 handle: { title: "Projects" },
+              },
+              {
+                path: "/machines",
+                element: <MachinesPage />,
+                handle: { title: "Machines" },
               },
             ],
           },

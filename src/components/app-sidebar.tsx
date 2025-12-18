@@ -10,6 +10,7 @@ import {
   IconPackage,
   IconRocket,
   IconSearch,
+  IconServer2,
   IconSettings,
   IconUsers,
 } from "@tabler/icons-react";
@@ -76,6 +77,11 @@ const data = {
     },
   ],
   infrastructure: [
+    {
+      name: "Machines",
+      url: "/machines",
+      icon: IconServer2,
+    },
     {
       name: "Images",
       url: "/images",

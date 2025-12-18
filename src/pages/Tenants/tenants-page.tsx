@@ -1,11 +1,11 @@
 import NoElementFound from "@/components/no-element-found/no-element-found";
-import { TenantTable } from "@/components/tenants/tenant-table";
+import { TenantTable } from "@/components/tenants/tenants-table";
 import { useQuery } from "@connectrpc/connect-query";
 import { TenantService } from "@metal-stack/api/js/metalstack/api/v2/tenant_pb";
 import LoadingScreen from "@/components/loading-screen/loading-screen";
 import AlertHint from "@/components/alert/AlertHint";
 
-export default function TenantList() {
+export default function TenantsPage() {
   const { data, isLoading, error } = useQuery(TenantService.method.list);
 
   if (isLoading) return <LoadingScreen />;

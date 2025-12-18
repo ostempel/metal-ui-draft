@@ -6,7 +6,7 @@ import AlertHint from "@/components/alert/AlertHint";
 import NoElementFound from "@/components/no-element-found/no-element-found";
 import { ProjectTable } from "@/components/projects/projects-table";
 
-export default function ProjectList() {
+export default function ProjectsPage() {
   const { data, isLoading, error } = useQuery(ProjectService.method.list);
 
   if (isLoading) {

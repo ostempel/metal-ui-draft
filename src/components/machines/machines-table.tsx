@@ -15,7 +15,6 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { z } from "zod";
 
 import {
   Table,
@@ -26,41 +25,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Tenant } from "@metal-stack/api/js/metalstack/api/v2/tenant_pb";
+import { Machine } from "@metal-stack/api/js/metalstack/api/v2/machine_pb";
 import { DataTablePagination } from "../table/pagination/table-pagination";
-import TenantDrawer from "./tenant-drawer";
 
-export const schema: z.ZodType<Tenant> = z.object({
-  $typeName: z.any(),
-  email: z.string(),
-  avatarUrl: z.string(),
-  login: z.string(),
-  name: z.string(),
-  createdBy: z.string(),
-  description: z.string(),
-  meta: z.any().optional(),
-});
-
-const columns: ColumnDef<z.infer<typeof schema>>[] = [
+const columns: ColumnDef<Machine>[] = [
   {
-    accessorKey: "login",
-    header: "Login",
-    cell: ({ row }) => {
-      return <TenantDrawer id={row.original.login} />;
-    },
+    accessorKey: "uuid",
+    header: "UUID",
     enableHiding: false,
   },
   {
-    accessorKey: "description",
-    header: "Description",
+    accessorKey: "status",
+    header: "Status",
   },
 ];
 
-export function TenantTable({
-  data: initialData,
-}: {
-  data: z.infer<typeof schema>[];
-}) {
+export function MachinesTable({ data: initialData }: { data: Machine[] }) {
   const [data] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -84,7 +64,7 @@ export function TenantTable({
       columnFilters,
       pagination,
     },
-    getRowId: (row) => row.login.toString(),
+    getRowId: (row) => row.uuid.toString(),
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
