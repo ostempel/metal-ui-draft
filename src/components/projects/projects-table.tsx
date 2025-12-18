@@ -41,7 +41,7 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 import { Project } from "@metal-stack/api/js/metalstack/api/v2/project_pb";
-import { DataTablePagination } from "../table/pagination/table-pagination";
+import { DataTablePagination } from "../ui/pagination/table-pagination";
 
 const columns: ColumnDef<Project>[] = [
   {

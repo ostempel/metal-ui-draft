@@ -15,7 +15,7 @@ import {
 import { useQuery } from "@connectrpc/connect-query";
 import { useState } from "react";
 import { Skeleton } from "../ui/skeleton";
-import AlertHint from "../alert/AlertHint";
+import AlertHint from "../ui/alert/AlertHint";
 
 interface TenantDrawerProps {
   id: string;

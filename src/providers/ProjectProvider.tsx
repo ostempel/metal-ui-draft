@@ -1,5 +1,5 @@
-import AlertHint from "@/components/alert/AlertHint";
-import LoadingScreen from "@/components/loading-screen/loading-screen";
+import AlertHint from "@/components/ui/alert/AlertHint";
+import LoadingScreen from "@/components/ui/loading-screen/loading-screen";
 import { useQuery } from "@connectrpc/connect-query";
 import {
   Project,

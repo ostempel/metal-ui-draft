@@ -1,5 +1,5 @@
 import { IconZoomQuestion } from "@tabler/icons-react";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent } from "../card";
 
 export default function NoElementFound() {
   return (

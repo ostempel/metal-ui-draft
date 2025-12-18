@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/table";
 
 import { Tenant } from "@metal-stack/api/js/metalstack/api/v2/tenant_pb";
-import { DataTablePagination } from "../table/pagination/table-pagination";
+import { DataTablePagination } from "../ui/pagination/table-pagination";
 import TenantDrawer from "./tenant-drawer";
 
 const columns: ColumnDef<Tenant>[] = [

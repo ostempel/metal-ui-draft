@@ -4,8 +4,8 @@ import {
   UserService,
   type User,
 } from "@metal-stack/api/js/metalstack/api/v2/user_pb";
-import LoadingScreen from "@/components/loading-screen/loading-screen";
-import AlertHint from "@/components/alert/AlertHint";
+import LoadingScreen from "@/components/ui/loading-screen/loading-screen";
+import AlertHint from "@/components/ui/alert/AlertHint";
 
 type UserContextValue = {
   user: User;

@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/table";
 
 import { Image } from "@metal-stack/api/js/metalstack/api/v2/image_pb";
-import { DataTablePagination } from "../table/pagination/table-pagination";
+import { DataTablePagination } from "../ui/pagination/table-pagination";
 
 const columns: ColumnDef<Image>[] = [
   {

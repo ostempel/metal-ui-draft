@@ -9,7 +9,7 @@ import { CliConfig, loadCliConfig } from "@/lib/cli-config";
 import { toast } from "sonner";
 import { listen } from "@tauri-apps/api/event";
 import { useNavigate } from "react-router";
-import LoadingScreen from "@/components/loading-screen/loading-screen";
+import LoadingScreen from "@/components/ui/loading-screen/loading-screen";
 
 type AuthenticatedState = {
   isAuthenticated: true;
