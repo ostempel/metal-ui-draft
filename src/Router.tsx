@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
               {
                 path: "/machines",
                 element: <MachinesPage />,
-                handle: { title: "Machines", withProjectSelector: true },
+                handle: { title: "Machines" },
               },
               {
                 path: "/images",
@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
               {
                 path: "/ips",
                 element: <IPsPage />,
-                handle: { title: "IPs", withProjectSelector: true },
+                handle: { title: "IPs" },
               },
               {
                 path: "/partitions",

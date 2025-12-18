@@ -13,7 +13,6 @@ import {
   IconServer2,
   IconSettings,
   IconSwitch2,
-  IconUsers,
 } from "@tabler/icons-react";
 import { NavInfrastructure } from "@/components/ui/app-shell/nav-documents";
 import { NavMain } from "@/components/ui/app-shell/nav-main";
@@ -30,13 +29,10 @@ import {
 } from "@/components/ui/sidebar";
 
 import logo from "@/assets/metal-stack.png";
+import { NavCtx } from "./nav-ctx";
+import { Separator } from "../separator";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
@@ -52,11 +48,6 @@ const data = {
       title: "Projects",
       url: "/projects",
       icon: IconRocket,
-    },
-    {
-      title: "Users",
-      url: "/users",
-      icon: IconUsers,
     },
   ],
   navSecondary: [
@@ -129,6 +120,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
+        <NavCtx />
+        <Separator />
         <NavMain items={data.navMain} />
         <NavInfrastructure items={data.infrastructure} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
