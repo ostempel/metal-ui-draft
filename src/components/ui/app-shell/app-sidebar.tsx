@@ -88,6 +88,11 @@ const data = {
       icon: IconServer2,
     },
     {
+      name: "Switches",
+      url: "/switches",
+      icon: IconSwitch2,
+    },
+    {
       name: "Images",
       url: "/images",
       icon: IconPackage,
