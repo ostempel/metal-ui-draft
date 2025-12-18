@@ -1,24 +1,14 @@
-import { SiteHeader } from "@/components/site-header";
-import Layout from "./Layout";
-
 export default function Dashboard() {
   return (
-    <Layout>
-      <SiteHeader title="Dashboard" />
-      <div className="flex flex-1 flex-col">
-        <div className="@container/main flex flex-1 flex-col gap-2">
-          <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            Some sections
-            {/* <SectionCards /> */}
-            <div className="px-4 lg:px-6">
-              some chart
-              {/* <ChartAreaInteractive /> */}
-            </div>
-            some table
-            {/* <DataTable data={data} /> */}
-          </div>
-        </div>
+    <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+      Some sections
+      {/* <SectionCards /> */}
+      <div className="px-4 lg:px-6">
+        some chart
+        {/* <ChartAreaInteractive /> */}
       </div>
-    </Layout>
+      some table
+      {/* <DataTable data={data} /> */}
+    </div>
   );
 }
