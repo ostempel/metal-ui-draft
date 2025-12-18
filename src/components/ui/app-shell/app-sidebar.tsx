@@ -7,6 +7,7 @@ import {
   IconGlobe,
   IconHelp,
   IconKey,
+  IconMaximize,
   IconPackage,
   IconRocket,
   IconSearch,
@@ -77,6 +78,11 @@ const data = {
       name: "Machines",
       url: "/machines",
       icon: IconServer2,
+    },
+    {
+      name: "Sizes",
+      url: "/sizes",
+      icon: IconMaximize,
     },
     {
       name: "Switches",
