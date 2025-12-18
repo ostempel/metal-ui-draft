@@ -8,6 +8,7 @@ import TenantsPage from "./pages/Tenants/tenants-page";
 import ProjectsPage from "./pages/Projects/projects-page";
 import MachinesPage from "./pages/Machines/machines-page";
 import ImagesPage from "./pages/Images/images-page";
+import IPsPage from "./pages/IPs/ips-page";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +48,11 @@ export const router = createBrowserRouter([
                 path: "/images",
                 element: <ImagesPage />,
                 handle: { title: "Images" },
+              },
+              {
+                path: "/ips",
+                element: <IPsPage />,
+                handle: { title: "IPs", withProjectSelector: true },
               },
             ],
           },
