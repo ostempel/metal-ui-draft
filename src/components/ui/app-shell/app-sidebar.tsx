@@ -2,6 +2,7 @@
 import * as React from "react";
 import {
   IconBuilding,
+  IconCloudPin,
   IconDashboard,
   IconGlobe,
   IconHelp,
@@ -11,6 +12,7 @@ import {
   IconSearch,
   IconServer2,
   IconSettings,
+  IconSwitch2,
   IconUsers,
 } from "@tabler/icons-react";
 import { NavInfrastructure } from "@/components/ui/app-shell/nav-documents";
@@ -75,6 +77,11 @@ const data = {
     },
   ],
   infrastructure: [
+    {
+      name: "Partitions",
+      url: "/partitions",
+      icon: IconCloudPin,
+    },
     {
       name: "Machines",
       url: "/machines",
