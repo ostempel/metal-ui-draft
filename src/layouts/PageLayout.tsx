@@ -11,8 +11,6 @@ export function PageLayout() {
     (current?.handle as { withProjectSelector?: boolean } | undefined)
       ?.withProjectSelector ?? false;
 
-  console.log(current);
-
   return (
     <AppLayout>
       <SiteHeader title={title} withProjectSelector={withProjectSelector} />

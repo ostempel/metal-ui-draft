@@ -94,6 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       richColors: true,
       description: "Logged out successfully.",
     });
+    navigate("/login");
   }, []);
 
   useEffect(() => {
