@@ -10,10 +10,6 @@ import { toast } from "sonner";
 import { listen } from "@tauri-apps/api/event";
 import { useNavigate } from "react-router";
 
-// --------------------
-// Typen
-// --------------------
-
 type AuthenticatedState = {
   isAuthenticated: true;
   token: string;
@@ -32,7 +28,6 @@ type UnauthenticatedState = {
 
 export type AuthState = AuthenticatedState | UnauthenticatedState;
 
-// interner State ohne Funktionen
 type InternalAuthState =
   | {
       isAuthenticated: false;
@@ -45,15 +40,7 @@ type InternalAuthState =
       contextName: string;
     };
 
-// --------------------
-// Context
-// --------------------
-
 const AuthContext = createContext<AuthState | undefined>(undefined);
-
-// --------------------
-// Provider
-// --------------------
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -164,10 +151,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
-
-// --------------------
-// Hook
-// --------------------
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
