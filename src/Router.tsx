@@ -13,6 +13,7 @@ import PartitionsPage from "./pages/Partitions/partitions-page";
 import SizesPage from "./pages/Sizes/sizes-page";
 import NetworksPage from "./pages/Networks/networks-page";
 import FilesystemsPage from "./pages/Filesystems/filesystems-page";
+import TokensPage from "./pages/Tokens/tokens-page";
 
 export const router = createBrowserRouter([
   {
@@ -77,6 +78,11 @@ export const router = createBrowserRouter([
                 path: "/filesystems",
                 element: <FilesystemsPage />,
                 handle: { title: "Filesystems" },
+              },
+              {
+                path: "/tokens",
+                element: <TokensPage />,
+                handle: { title: "Tokens" },
               },
             ],
           },
