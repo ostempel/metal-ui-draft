@@ -9,6 +9,7 @@ import { CliConfig, loadCliConfig } from "@/lib/cli-config";
 import { toast } from "sonner";
 import { listen } from "@tauri-apps/api/event";
 import { useNavigate } from "react-router";
+import LoadingScreen from "@/components/loading-screen/loading-screen";
 
 type AuthenticatedState = {
   isAuthenticated: true;
@@ -16,12 +17,14 @@ type AuthenticatedState = {
   apiUrl: string;
   projectId: string;
   contextName: string;
+  isLoading: boolean;
   reload: () => Promise<void>;
   logout: () => void;
 };
 
 type UnauthenticatedState = {
   isAuthenticated: false;
+  isLoading: boolean;
   reload: () => Promise<void>;
   logout: () => void;
 };
@@ -31,6 +34,7 @@ export type AuthState = AuthenticatedState | UnauthenticatedState;
 type InternalAuthState =
   | {
       isAuthenticated: false;
+      isLoading: boolean;
     }
   | {
       isAuthenticated: true;
@@ -38,6 +42,7 @@ type InternalAuthState =
       apiUrl: string;
       projectId: string;
       contextName: string;
+      isLoading: boolean;
     };
 
 const AuthContext = createContext<AuthState | undefined>(undefined);
@@ -46,6 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const [authState, setAuthState] = useState<InternalAuthState>({
     isAuthenticated: false,
+    isLoading: true,
   });
 
   const reload = useCallback(async () => {
@@ -60,7 +66,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         description: "No context selected in CLI config.",
       });
 
-      setAuthState({ isAuthenticated: false });
+      setAuthState({ isAuthenticated: false, isLoading: false });
       return;
     }
 
@@ -70,6 +76,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       apiUrl: ctx.apiUrl,
       projectId: ctx.defaultProject,
       contextName: ctx.name,
+      isLoading: false,
     });
 
     toast.info("Auth", {
@@ -80,7 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const logout = useCallback(() => {
-    setAuthState({ isAuthenticated: false });
+    setAuthState({ isAuthenticated: false, isLoading: false });
 
     toast.info("Auth", {
       id: "logged-out",
@@ -105,7 +112,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           description: "No context selected in CLI config.",
         });
 
-        setAuthState({ isAuthenticated: false });
+        setAuthState({ isAuthenticated: false, isLoading: false });
         return;
       }
       setAuthState({
@@ -114,6 +121,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         apiUrl: ctx.apiUrl,
         projectId: ctx.defaultProject,
         contextName: ctx.name,
+        isLoading: false,
       });
 
       toast.success("Auth", {
@@ -133,6 +141,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, [reload]);
 
+  if (authState.isLoading) {
+    return <LoadingScreen />;
+  }
+
   const value: AuthState = authState.isAuthenticated
     ? {
         isAuthenticated: true,
@@ -140,11 +152,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         apiUrl: authState.apiUrl,
         projectId: authState.projectId,
         contextName: authState.contextName,
+        isLoading: authState.isLoading,
         reload,
         logout,
       }
     : {
         isAuthenticated: false,
+        isLoading: authState.isLoading,
         reload,
         logout,
       };
@@ -154,8 +168,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) {
-    throw new Error("useAuth must be used inside AuthProvider");
-  }
+  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
   return ctx;
+}
+
+export function useAuthenticatedAuth() {
+  const auth = useAuth();
+  if (!auth.isAuthenticated) {
+    throw new Error("useAuthenticatedAuth must be used when authenticated");
+  }
+  return auth; // hier ist token/apiUrl/projectId typed verfügbar
 }
