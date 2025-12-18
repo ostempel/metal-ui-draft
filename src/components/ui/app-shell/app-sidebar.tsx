@@ -4,6 +4,7 @@ import {
   IconBuilding,
   IconCloudPin,
   IconDashboard,
+  IconDeviceSdCard,
   IconGlobe,
   IconHelp,
   IconKey,
@@ -104,6 +105,11 @@ const data = {
       name: "Networks",
       url: "/networks",
       icon: IconNetwork,
+    },
+    {
+      name: "Filesystems",
+      url: "/filesystems",
+      icon: IconDeviceSdCard,
     },
     {
       name: "Tokens",

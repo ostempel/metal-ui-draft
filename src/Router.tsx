@@ -12,6 +12,7 @@ import IPsPage from "./pages/IPs/ips-page";
 import PartitionsPage from "./pages/Partitions/partitions-page";
 import SizesPage from "./pages/Sizes/sizes-page";
 import NetworksPage from "./pages/Networks/networks-page";
+import FilesystemsPage from "./pages/Filesystems/filesystems-page";
 
 export const router = createBrowserRouter([
   {
@@ -71,6 +72,11 @@ export const router = createBrowserRouter([
                 path: "/networks",
                 element: <NetworksPage />,
                 handle: { title: "Networks" },
+              },
+              {
+                path: "/filesystems",
+                element: <FilesystemsPage />,
+                handle: { title: "Filesystems" },
               },
             ],
           },
