@@ -7,9 +7,23 @@ import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
 import { useQuery } from "@connectrpc/connect-query";
 import { HealthService } from "@metal-stack/api/js/metalstack/api/v2/health_pb";
 import ServiceHealthItem from "./health/service-health-item";
+import { Select } from "@radix-ui/react-select";
+import { useProject } from "@/providers/ProjectProvider";
+import {
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
-export function SiteHeader({ title }: { title: string }) {
+interface SiteHeaderProps {
+  title: string;
+  withProjectSelector?: boolean;
+}
+
+export function SiteHeader({ title, withProjectSelector }: SiteHeaderProps) {
   const { data } = useQuery(HealthService.method.get);
+  const projectCtx = useProject();
 
   const { theme, setTheme } = useTheme();
   return (
@@ -21,6 +35,27 @@ export function SiteHeader({ title }: { title: string }) {
           className="mx-2 data-[orientation=vertical]:h-4"
         />
         <h1 className="text-base font-medium">{title}</h1>
+        {withProjectSelector && (
+          <Select
+            value={projectCtx.currentProject.uuid}
+            onValueChange={(value) =>
+              projectCtx.setCurrentProject(
+                projectCtx.projects.find((p) => p.uuid === value)!
+              )
+            }
+          >
+            <SelectTrigger id="rows-per-page" size="sm" className="w-20">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent side="top">
+              {projectCtx.projects.map((project) => (
+                <SelectItem key={project.uuid} value={project.uuid}>
+                  {project.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
         <div className="ml-auto flex items-center gap-2">
           <Button
             variant="secondary"

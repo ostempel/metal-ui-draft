@@ -40,7 +40,7 @@ export const router = createBrowserRouter([
               {
                 path: "/machines",
                 element: <MachinesPage />,
-                handle: { title: "Machines" },
+                handle: { title: "Machines", withProjectSelector: true },
               },
             ],
           },
