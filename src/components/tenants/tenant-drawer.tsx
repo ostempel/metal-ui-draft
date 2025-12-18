@@ -1,7 +1,7 @@
 "use client";
 
 import { TenantService } from "@metal-stack/api/js/metalstack/api/v2/tenant_pb";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerTrigger,
@@ -11,11 +11,11 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerClose,
-} from "../ui/drawer";
+} from "@/components/ui/drawer";
 import { useQuery } from "@connectrpc/connect-query";
 import { useState } from "react";
-import { Skeleton } from "../ui/skeleton";
-import AlertHint from "../ui/alert/AlertHint";
+import { Skeleton } from "@/components/ui/skeleton";
+import AlertHint from "@/components/ui/alert/AlertHint";
 
 interface TenantDrawerProps {
   id: string;

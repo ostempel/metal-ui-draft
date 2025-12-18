@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/table";
 
 import { IP } from "@metal-stack/api/js/metalstack/api/v2/ip_pb";
-import { DataTablePagination } from "../ui/pagination/table-pagination";
+import { DataTablePagination } from "@/components/ui/pagination/table-pagination";
 
 const columns: ColumnDef<IP>[] = [
   {

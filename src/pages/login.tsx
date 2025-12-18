@@ -17,7 +17,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-import logo from "../assets/metal-stack.png";
+import logo from "@/assets/metal-stack.png";
 
 const formSchema = z.object({
   apiUrl: z.url("Please enter a valid URL"),

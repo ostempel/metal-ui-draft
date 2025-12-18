@@ -27,7 +27,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-import logo from "../../../assets/metal-stack.png";
+import logo from "@/assets/metal-stack.png";
 
 const data = {
   user: {

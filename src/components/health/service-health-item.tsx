@@ -2,7 +2,7 @@ import {
   Service,
   ServiceStatus,
 } from "@metal-stack/api/js/metalstack/api/v2/health_pb";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 export interface ServiceHealthItemProps {
   serviceName: Service;
